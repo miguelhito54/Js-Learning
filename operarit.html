@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operaciones Artimeticas</title>
+</head>
+<body>
+    <script src="./operarit.js"></script>
+    <h1>Formulario para operaciones aritmeticas</h1>
+        <form>
+            <label for="n1">number one</label>
+                <input type="text" name="n1" id="n1">
+                </input>
+                    <br></br>
+                    <label for="n2">number two</label>
+                <input type="text" name="n2" id="n2">
+                </input>
+                    <br></br>
+                    <label for="rad">
+                        Radius
+                    </label>
+                    <input type="text" name="rad" id="rad">
+
+                        </input>
+                    <br></br>
+                    <button type="button" onclick= 'add()'> +
+                    </button>
+                        <button type="button" onclick='substract()'> -
+                        </button>
+                            <button type="button" onclick='divide()'> /
+                            </button>
+                                <button type="button" onclick='multiply()'> *
+                                </button>
+                                <button type="button" onclick='circlearea()'>○
+                                    </button>
+                                    <button type="button" onclick="trianglearea()">▲
+                                        </button>
+                    <p>
+                    resultado:
+                        <textarea id='Result' cols="5" rows="1">
+                        </textarea>
+                    </p>
+        </form>
+</body>
+</html>

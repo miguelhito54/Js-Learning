@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<canvas id="Firstgame" width="800" height="600"></canvas>
+<script>
+
+var canvas;
+ var canvasContext;
+  var ballX=50;
+   var ballSpeedX=10;
+    var ballY=50;
+     var ballSpeedY=10;
+	  var paddle1Y=250;
+	   var paddle2Y=250;
+const paddleHeight=100;
+const paddleThickness=12;
+	var player1score=0;
+	 var player2score=0;
+
+function calculateMousePosition(evt)
+{
+	var rect = canvas.getBoundingClientRect();
+	var root = document.documentElement;
+	var mouseX = evt.clientX  - rect.left -root.scrollLeft;
+	var mouseY = evt.clientY - rect.top - root.scrollTop;
+	return{
+		x:mouseX,
+		y:mouseY
+	};
+}
+
+window.onload=function(){
+	canvas = document.getElementById("Firstgame");
+	canvasContext = canvas.getContext('2d');
+	var framesPerSecond= 30;
+		
+	setInterval(function(){
+		move();
+		drawingAll();
+	},  1000/framesPerSecond);
+	
+canvas.addEventListener('mousemove', 
+	function(evt)
+	{	
+	var mousePos = calculateMousePosition(evt);
+	paddle1Y = mousePos.y-(paddleHeight/2);	
+	});
+	}
+
+	function resetBall() {
+		ballSpeedX = -ballSpeedX;
+		ballX= canvas.width/2;
+		ballY= canvas.height/2;
+	}
+	
+	function computerMovement(){
+	var paddle2YCenter = paddle2Y + (paddleHeight/2);
+	if (paddle2Y < ballY -36) {
+		paddle2Y += 6;
+	} else if (paddle2Y > ballY -36) {
+		paddle2Y -= 6;
+	}
+	};
+
+	//movimiento 
+	function move()
+	{	
+		computerMovement();
+		//esto: ballX = ballX + ballSpeedX; es lo mismo que :
+		ballX += ballSpeedX
+		// sumarse el mismo con el ballSpeedX
+		if (ballX <= 0){
+
+			if (ballY > paddle1Y && 
+				ballY < paddle1Y+paddleHeight) {
+				ballSpeedX = -ballSpeedX;
+			var deltaY = ballY
+			 -(paddle1Y+paddleHeight/2);
+			 	ballSpeedY = deltaY * 0.35;
+			
+			}else{
+				resetBall();
+				player2score++;
+				 }
+			}
+
+		if (ballX >= canvas.width) {
+			if (ballY > paddle2Y && ballY < paddle2Y+paddleHeight){
+					ballSpeedX = -ballSpeedX;
+			var deltaY = ballY
+			 -(paddle2Y+paddleHeight/2);
+			 	ballSpeedY = deltaY * 0.35;
+			}else{
+			resetBall();
+			player1score ++;
+
+			}
+		}
+		
+		//movimiento en Y
+		ballY= ballY + ballSpeedY;
+		if(ballY < 0){
+				ballSpeedY = -ballSpeedY;
+		}
+		if (ballY > canvas.height) {
+				ballSpeedY = -ballSpeedY;
+		}
+	}	
+		
+
+	
+function drawingAll() 
+{//dibuja el fondo
+	colorRect(0,0,canvas.width,canvas.height,'black');
+ //dibuja la plelota(forma)
+	 drawBall(ballX,ballY,8,'white');
+ //dibuja los rectangulos (paddle)
+	  colorRect(0,paddle1Y,paddleThickness,paddleHeight,'red');
+ //second paddle	
+	   colorRect(canvas.width-paddleThickness,paddle2Y,paddleThickness,paddleHeight,'red');
+
+	canvasContext.fillText(player1score,100,100);
+	canvasContext.fillText(player2score, canvas.width -100,100);
+}
+
+function drawBall(centerX,centerY,radious,drawColor)
+{
+	canvasContext.fillStyle="white";
+	canvasContext.beginPath();
+	canvasContext.arc(centerX, centerY, radious, 0,Math.PI*2, true);
+	canvasContext.fill();	
+}			
+
+	function colorRect(leftX,topY,width,height,drawColor)
+	{	//color:
+		canvasContext.fillStyle=drawColor;
+		//posicion y tamaño:
+		canvasContext.fillRect(leftX,topY,width,height); 
+	}
+
+</script>
+</html>
